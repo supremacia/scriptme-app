@@ -1,0 +1,7 @@
+201711291542
+1 - Criar função para o botão "Add Topics". 
+	a - Criar nova página e mostrar;
+	b - mostrar a nova página com os campos "título" e "conteúdo";
+	c - mostrar botões para "salvar" e "deletar" (e voltar ao home);
+	d - o novo tópico estará listado com a opção de "deletar", ao segurar (ou clicar com direito).
+
