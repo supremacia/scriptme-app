@@ -1,0 +1,53 @@
+body {
+	background:#000;
+}
+
+header {
+	background: #3F51B5;
+    color: #FFF;
+}
+
+.textobasico {
+	background:#EEF;
+	padding:10px;
+	font-style: italic;
+}
+
+ul.topicolink {
+	padding:10px 0;
+	margin: 0 0 -10px 0;
+}
+
+ul.topicolink li {
+	background-color:#047;
+}
+
+
+/* NAVIGATION --- BEGIN */
+
+ul.toplink {
+    background-color:#3F51B5;
+}
+
+ul.toplink li {
+    background-color:rgba(255,255,255,.1);
+}
+
+/* NAVIGATION --- END */
+
+.page {
+	background:#FFE
+}
+
+#btNewTopic {
+	background: #2196F3;
+	color: #FFF;
+}
+
+.menu {
+	background-color:#daedf5;
+}
+.menu span {
+ 	color:#047; 
+ 	text-shadow:0px 1px 1px rgba(0,0,0,.1);
+}

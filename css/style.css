@@ -16,6 +16,15 @@ h1 {
 	font-size: 3em;
 }
 
+header {
+	background: #00BCD4;
+    min-height: 100px;
+    margin: -10px;
+    padding: 10px;
+    color: #FFF;
+
+}
+
 button {
 	padding:10px 30px;
 	border:none;
@@ -131,7 +140,8 @@ ul.toplink li {
 
 #preludio:empty:not(:focus):before,
 .pgtitulo:empty:not(:focus):before,
-.textobasico:empty:not(:focus):before{
+.textobasico:empty:not(:focus):before,
+.pgtexto:empty:not(:focus):before{	
   content:attr(data-placeholder);
   color: #555;
   display: block; /* For Firefox */

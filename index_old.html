@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>ScriptMe :: notes</title>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:700|Raleway:400" rel="stylesheet">
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/style_old.css">
         <link rel="author" href="humans.txt">
     </head>
     <body>
@@ -29,19 +29,20 @@
 	    			
 	    			<h2>Tópicos</h2>
 	    			<span class="helper">Toque para acessar & mantenha pressionado para exibir menu</span>
-	    			<ul class="topicolink"> 
-	    			    <li onclick="gotopage(2)">Quando o ímpio crescer como a erva</li>
-	    			    <li onclick="gotopage(3)">Quando florescerem todos os que praticam a iniqüidade</li>
-	    			    <li onclick="gotopage(4)">Serão destruídos perpetuamente</li>
-	    			    <li onclick="gotopage(5)"><b>Conclusão</b><br>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
+	    			<ul class="topicolink" id="topicolink"> 
+	    			    <li id="tplink2" onclick="gotopage(2)">Quando o ímpio crescer como a erva</li>
+	    			    <li id="tplink3" onclick="gotopage(3)">Quando florescerem todos os que praticam a iniqüidade</li>
+	    			    <li id="tplink4" onclick="gotopage(4)">Serão destruídos perpetuamente</li>
+	    			    <li id="tplink5" onclick="gotopage(5)"><b>Conclusão</b><br>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
 	    			</ul>
 	    			<button id="btNewTopic" placeholder="Adicionar novo tópico (página)">+</button>
 	    		</div>
     		</div>
 
     		<ul class="toplink">
-    			<li onclick="gotopage(1)">Home</li>
-    			<li onclick="gotopage()">Next</li>
+    			<li onclick="gotopage('pre')"><<</li>
+    			<li onclick="gotopage(1)">Home</li>    			
+    			<li onclick="gotopage('nxt')">>></li>
     			<li id="btFs" onclick="document.body.webkitRequestFullscreen()">Full Screen</li>
     		</ul>
 
@@ -96,6 +97,6 @@
 
     	</div>
         
-        <script src="js/main.js"></script>
+        <script src="js/main_old.js"></script>
     </body>
 </html>

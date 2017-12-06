@@ -10,19 +10,7 @@ window.onload = function(){
 	initPages();
 
 
-	/*
-	  Para abrir opções quando segurar algum tópico
-	  Tipo "menu de contexto" no desktop
-	 */
-	var li = _c("topicolink")[0].children;
-
-	for(var i in li){
-		li[i].oncontextmenu = function (e){
-			e.preventDefault();
-			alert(e.target.innerHTML);
-			TMP = e;
-		}
-	}
+	
 
 
 
@@ -35,11 +23,35 @@ window.onload = function(){
 		}
 	}
 
+
+	_('btNewTopic').onclick = function(){
+		newtopic();
+		tplinkOtp();
+	}
+
 	
 
 
 
 }
+
+
+/*
+  Para abrir opções quando segurar algum tópico
+  Tipo "menu de contexto" no desktop
+ */
+function tplinkOtp(){
+	var li = _c("topicolink")[0].children;
+
+	for(var i in li){
+		li[i].oncontextmenu = function (e){
+			e.preventDefault();
+			alert(e.target.innerHTML);
+			TMP = e;
+		}
+	}
+}
+
 
 function initPages(){
 	PAGEMAX = 0;
@@ -62,10 +74,10 @@ function initPages(){
 }
 
 function otstart(e, me){
+	if(PAGEMAX == 1) return;
+
 	STX = e.touches[0].clientX;
 	PAGENOW = parseInt(me.id.replace('page',''));
-
-	//_('page'+PAGENOW).style.zIndex = 1000;
 
 	for(var i = 1; i <= PAGEMAX; i++){
 		if(i != PAGENOW) {
@@ -77,15 +89,12 @@ function otstart(e, me){
 }
 
 function otmove(e, me){
-
+	if(PAGEMAX == 1) return;
 	var change = STX - e.touches[0].clientX;
 
 	if(change < 0){
-		//console.log('STX: '+STX+' | change: '+change);
 		return;
 	}
-
-	//_('page'+PAGENOW).style.left = '-' + change + 'px';
 
 	_('page'+PAGENOW).style.zIndex = "0";
     
@@ -97,6 +106,7 @@ function otmove(e, me){
 }
 
 function otend(e, me){
+	if(PAGEMAX == 1) return;
 
 	var change = STX - e.changedTouches[0].clientX;
 	var threshold = screen.width / 2;
@@ -105,10 +115,12 @@ function otend(e, me){
 	var p2 = _('page'+PAGEPRO);
 
 	if(change < threshold) {
-
 		p1.style.left = 0;
-		p2.style.left = '100%';
-		p2.style.display = 'none';
+		
+		if(p2){
+			p2.style.left = '100%';
+			p2.style.display = 'none';
+		}
 
 	} else {
 
@@ -126,33 +138,14 @@ function otend(e, me){
 		_('page'+PAGENOW).style.zIndex = (PAGENOW == 1) ? "30": "0";
 		_('page'+PAGEPRO).style.zIndex = "40";
 	}	
-
-	//_('page1').style.zIndex = "30";
-
-	//console.log('PAGENOW: '+PAGENOW+' | PAGEPRO: '+PAGEPRO)
 }
 
 
 function gotopage(p){
 
-	//console.log('antes ->  Page: '+p+' | PAGEPRO: '+PAGEPRO);
-
-	//console.log(typeof p);
-
 	if("number" == typeof p && PAGENOW != p) PAGEPRO = p;
 	if(PAGENOW == p) return;
 
-	//if(p == PAGENOW) return;	
-	//p = "number" == typeof p ? p : 1;
-
-	//console.log('parsed: '+p);
-
-	
-	//PAGEPRO = p;
-
-
-	//console.log('depois -> Page: '+p+' | PAGEPRO: '+PAGEPRO);
-	//
 	for(var i = 1; i <= PAGEMAX; i++){
 		if(i != PAGENOW) {
 			_('page'+i).style.left = '100%';
@@ -195,6 +188,60 @@ function gotopage(p){
 
 		setTimeout(function(){p1.style.display = "none"}, 300);
 	}, 5);
+
+}
+
+
+//Create a Topic
+function newtopic(){
+	var pgnew = PAGEMAX + 1;
+
+	//Conteudo da nova página
+	var pghtml = '<div id="page'+pgnew+'" class="page">'
+    			+'<div class="content">'
+	    			+'<h1 class="pgtitulo" contenteditable="true" data-placeholder="Digite o Título aqui"></h1>'
+	    			+'<div class="pgtexto" contenteditable="true" data-placeholder="Digite seu conteúdo aqui"></div>'
+	    		+'</div></div>';
+	_('container').insertAdjacentHTML('beforeEnd',pghtml);
+
+	//conteúdo do botão de acesso a nova página
+	var tphtml = '<li id="tplink'+pgnew+'" onclick="gotopage('+pgnew+')">Digite o Título aqui</li>';
+	_('topicolink').insertAdjacentHTML('beforeEnd',tphtml);
+
+	//ajustando o título no TOPICLINK
+	var page = _('page'+pgnew).getElementsByClassName('pgtitulo')[0];
+	_('tplink'+pgnew).innerHTML = ("" == page.innerHTML) ? page.getAttribute('data-placeholder') : page.innerHTML;
+
+	//Corrigindo o titulo no topiclink na EDIÇÃO
+	_('page'+pgnew).onkeyup = function(e){
+		var p = e.target.parentNode.parentNode.id.replace('page', '');
+		_('tplink'+p).innerHTML = e.target.innerHTML;
+	}
+
+	PAGEMAX = pgnew;
+	
+	initPages();
+	gotopage(PAGEMAX);
+}
+
+
+//Salvando a página
+function savepage(p){
+	pagenow = p || PAGENOW;
+
+	alert('salvadinho...');
+}
+
+//deletando a página
+function deletepage(p){
+	pagenow = p || PAGENOW;
+
+	_('page'+pagenow).remove();
+	_('tplink'+pagenow).remove();
+
+	PAGEMAX --;
+	initPages();
+	gotopage(1);
 
 }
 
