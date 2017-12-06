@@ -17,19 +17,11 @@ window.onload = function(){
 	//Hide or Show button "full screen"
 	document.onwebkitfullscreenchange = function(){
 		if(null == document.webkitCurrentFullScreenElement){
-			_('btFs').style.display = "inline-block";
+			_('tl_full').style.display = "inline-block";
 		} else {
 			_('tl_full').style.display = "none";
 		}
 	}
-
-
-
-
-	
-
-
-
 }
 
 //Para adicionar ação ao botão "new topc"
@@ -68,20 +60,6 @@ function initPages(){
 			n[p].setAttribute('ontouchmove', 	'otmove(event, this)');
 			n[p].setAttribute('ontouchend', 	'otend(event, this)'); 
 
-/*			n[p].style.left = '100%';
-
-
-			if(n[p].id != 'page1') {
-				n[p].style.left = 0;
-				//n[p].style.display = 'none';
-				n[p].style.opacity = .2;
-			} else {
-				n[p].style.opacity = 1;
-				n[p].style.display = 'block';
-				n[p].style.left = 0;
-				n[p].style.zIndex = 2000;
-			}*/
-
 			PAGEMAX ++;
 		}
 	}
@@ -114,16 +92,6 @@ function otstart(e, me){
 
 	STX = e.touches[0].clientX;
 	PAGENOW = parseInt(me.id.replace('page',''));
-
-/*
-	for(var i = 1; i <= PAGEMAX; i++){
-		if(i != PAGENOW) {
-			_('page'+i).style.left = '100%';
-			_('page'+i).style.display = 'none';
-			_('page'+i).style.transition = '0s';
-		}
-	}
-	*/
 }
 
 function otmove(e, me){
@@ -131,32 +99,6 @@ function otmove(e, me){
 	var change = STX - e.touches[0].clientX;
 
 	console.log((0 - change) + 'px');
-
-/*
-if(change > STXM || change < STXM){
-	var now = _('page1')
-	now.style.left = (0 - change) + 'px';
-	now.style.zIndex = 2000;
-
-	var pro = _('page'+PAGEPRO)
-	pro.style.opacity = .2;
-	pro.style.zIndex = 0;
-
-}
-
-*/
-	//if(change < 0){
-	//	return;
-	//}
-
-
-//	_('page'+PAGENOW).style.zIndex = "0";
-    
-//    _('page'+PAGEPRO).style.display = 'block';
-//    _('page'+PAGEPRO).style.left = (screen.width - change) + 'px';
-//    _('page'+PAGEPRO).style.transform = 'rotate(-6deg)'
-
-    //e.preventDefault();
 }
 
 function otend(e, me){
