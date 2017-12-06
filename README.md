@@ -1,5 +1,9 @@
 # scriptme
-Script para pregações ou discursos - mobile e web
+**Scriptme** é um aplicativo criado para substituir os rascunhos em papel que geralmente se leva para o púlpito em pregações (igreja) ou discursos em geral. Os tópicos ficam distribuidos em páginas diferentes, facilitando a leitura ao vivo.
+
+É possível salvar ou carregar um **"script"** na "núvem" e, futuramente, **Scriptme** possibilitará distribuir os scripts para outras pessoas, armazenar em "librarys" (pacotes com vários scripts) e baixar de outras pessoas (como uma rede social).
+
+Addicionar áudio, vídeo e imagens (como um PowerPoint), além da possíbilidade de projetar em tempo real em telão (ou outra midia), é uma das futuras features que o **Scriptme** terá em breve.
 
 **Para testar** acesse o site http://geracristo.tk com seu **smartphone**
 
