@@ -3,7 +3,7 @@
 
 É possível salvar ou carregar um **"script"** na "núvem" e, futuramente, **Scriptme** possibilitará distribuir os scripts para outras pessoas, armazenar em "librarys" (pacotes com vários scripts) e baixar de outras pessoas (como uma rede social).
 
-Addicionar áudio, vídeo e imagens (como um PowerPoint), além da possíbilidade de projetar em tempo real em telão (ou outra midia), é uma das futuras features que o **Scriptme** terá em breve.
+Adicionar áudio, vídeo e imagens (como um PowerPoint), além da possíbilidade de projetar em tempo real em telão (ou outra midia), é uma das features que o **Scriptme** terá em breve.
 
 **Para testar** acesse o site http://geracristo.tk com seu **smartphone**
 
