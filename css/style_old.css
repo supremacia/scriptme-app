@@ -245,7 +245,8 @@ li#tl_full {
 	cursor: pointer;
 }
 
-.menu ul li:hover {
+.menu ul li:hover,
+.menu ul li:active {
 	background-color: #FFC;
 }
 
