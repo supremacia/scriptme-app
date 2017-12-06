@@ -242,6 +242,11 @@ li#tl_full {
 	background-position:8px center;
 	background-repeat:no-repeat;
 	background-image:url(../img/icon/32/black/toc.png);
+	cursor: pointer;
+}
+
+.menu ul li:hover {
+	background-color: #FFC;
 }
 
 .menu.on {

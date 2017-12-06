@@ -8,6 +8,7 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:400,700|Raleway:400|Lato:300,400,700" rel="stylesheet">
         <link rel="stylesheet" href="css/style_old.css">
         <link rel="stylesheet" id="theme" href="">
+        <link rel="shortcut icon" href="favicon.ico">
         <link rel="author" href="humans.txt">
     </head>
     <body>
