@@ -1,250 +1,253 @@
-var STX,
-	PAGEMAX = 0,
-	PAGEPRO = 2,
-	PAGENOW = 1;
+var MAX,
+    NEXT,
+    NOW = 1,
+    BACK,
+    STX,
+    STXM,
+    SCROLL = 0,
+    DATA = function(){return {error:false, action:false, name:false, script:false}};
 
-var TMP, CONT = 0;
 
 window.onload = function(){
-
-	initPages();
-
-
-	
-
-
-
-	//Hide or Show button "full screen"
-	document.onwebkitfullscreenchange = function(){
-		if(null == document.webkitCurrentFullScreenElement){
-			_('btFs').style.display = "inline-block";
-		} else {
-			_('btFs').style.display = "none";
-		}
-	}
-
-
-	_('btNewTopic').onclick = function(){
-		newtopic();
-		tplinkOtp();
-	}
-
-	
-
-
-
+    STXM = screen.width / 3;
+    initPages();
+    restNewTopicBtn();
+    _c('toTop').onclick = function(){scrollTop()}
+    _('page'+NOW).className = "page";
 }
-
-
-/*
-  Para abrir opções quando segurar algum tópico
-  Tipo "menu de contexto" no desktop
- */
-function tplinkOtp(){
-	var li = _c("topicolink")[0].children;
-
-	for(var i in li){
-		li[i].oncontextmenu = function (e){
-			e.preventDefault();
-			alert(e.target.innerHTML);
-			TMP = e;
-		}
-	}
-}
-
 
 function initPages(){
-	PAGEMAX = 0;
-	var n = _('container').childNodes;
+    var pg = _s('.page');
+    var top = _s('.page .toTop');
+    MAX = 0;
+    for(i in pg){
+        if("object" == typeof pg[i]){
+            pg[i].setAttribute('ontouchstart', 	'otstart(event, this)');
+			pg[i].setAttribute('ontouchmove', 	'otmove(event, this)');
+			pg[i].setAttribute('ontouchend', 	'otend(event, this)');
 
-	for(var p in n) { 
-		if(n[p].className == "page"){
-			n[p].setAttribute('ontouchstart', 	'otstart(event, this)');
-			n[p].setAttribute('ontouchmove', 	'otmove(event, this)');
-			n[p].setAttribute('ontouchend', 	'otend(event, this)'); 
-
-			if(p > 1) {
-				n[p].style.left = '100%';
-				n[p].style.display = 'none';
+			if(i !== '0') {
+				pg[i].className = "page preback";
 			}
-
-			PAGEMAX ++;
-		}
-	}
+            MAX ++;
+        }
+    }
+    calcBackNext();
+    toGo();
 }
 
+//Faz o scroll to top (0) da página atual
+function scrollTop(){
+	if(NOW == 1) return;
+	SCROLL = _('page'+NOW).scrollTop;
+
+	setTimeout(function(){
+		SCROLL-= 100;
+		_('page'+NOW).scrollTop = SCROLL;
+		if(SCROLL > 0) scrollTop();
+	}, 30);
+}
+
+//Para adicionar ação ao botão "new topc"
+function restNewTopicBtn(){
+    _('btNewTopic').onclick = function(){
+        newtopic();
+        tplinkOtp();
+    }
+}
+
+function resetPages(p){
+	if("number" !== typeof p) p = 1;
+	if(p > MAX || p < 1) p = 1;
+	var pg = _s('.page');
+    for(i in pg){
+        if("object" == typeof pg[i]){
+			if(i != p) pg[i].className = "page preback";
+        }
+    }
+}
+
+
+//rotação para frente
+function gonext(){    
+    toGo(); //Posiciona as páginas para o inicio da transição
+    NOW = (NOW +1 > MAX)  ? 1   : NOW +1; //calcula a rotação
+    calcBackNext(); //calcula back/next
+    toGo(); //executa
+}
+
+//rotação para traz
+function goback(){    
+    toGo(); //Posiciona as páginas para o inicio da transição
+    NOW = (NOW -1 < 1) ? MAX : NOW -1; //calcula a rotação
+    calcBackNext(); //calcula back/next
+    toGo(); //executa
+}
+
+//calcula o BACK e NEXT
+function calcBackNext(){
+    BACK = (NOW -1 < 1)   ? MAX : NOW -1;
+    NEXT = (NOW +1 > MAX) ? 1   : NOW +1;
+}
+
+//Execute rotates
+function toGo(){
+	SCROLL = 0;
+	if(MAX == 1) return;
+
+    scrollTop();
+	_('page'+BACK).className="page preback";
+    _('page'+NOW).className="page prenow";
+    _('page'+NEXT).className="page prenext";
+}
+
+/* --- DROP/DRAW --- BEGIN */
 function otstart(e, me){
-	if(PAGEMAX == 1) return;
-
 	STX = e.touches[0].clientX;
-	PAGENOW = parseInt(me.id.replace('page',''));
-
-	for(var i = 1; i <= PAGEMAX; i++){
-		if(i != PAGENOW) {
-			_('page'+i).style.left = '100%';
-			_('page'+i).style.display = 'none';
-			_('page'+i).style.transition = '0s';
-		}
-	}
 }
 
 function otmove(e, me){
-	if(PAGEMAX == 1) return;
 	var change = STX - e.touches[0].clientX;
+	var valor = (change < 0) ? change *-1 : change; 
 
-	if(change < 0){
-		return;
-	}
-
-	_('page'+PAGENOW).style.zIndex = "0";
-    
-    _('page'+PAGEPRO).style.display = 'block';
-    _('page'+PAGEPRO).style.left = (screen.width - change) + 'px';
-    _('page'+PAGEPRO).style.transform = 'rotate(-6deg)'
-
-    e.preventDefault();
+    if(valor < STXM) {
+        me.className = "page";
+        me.style.left = "0px";
+        return;
+    }
+	me.style.left = ((change > 0) ? '-' : '')+'20px';
+    me.className = "page toMove";
 }
 
 function otend(e, me){
-	if(PAGEMAX == 1) return;
-
+	me.style.left = "0px";
 	var change = STX - e.changedTouches[0].clientX;
-	var threshold = screen.width / 2;
 
-	var p1 = _('page'+PAGENOW);
-	var p2 = _('page'+PAGEPRO);
+	var dir = (change > 0) ? 'right' : 'left'; 
+	var valor = (change < 0) ? change *-1 : change;    
+	if(valor < STXM) return; //se o valor não for maior que o prefixado, returna 	
 
-	if(change < threshold) {
-		p1.style.left = 0;
-		
-		if(p2){
-			p2.style.left = '100%';
-			p2.style.display = 'none';
-		}
+	if(dir == 'left') goback();
+	if(dir == 'right') gonext();
+}
 
+
+/* --- NAVIGATION by commands --- BEGIN */
+function togleMenu(){
+	if(_('navMenu').className == ""){
+		_('navMenu').className = "open";
 	} else {
-
-		p1.style.transition = '4s';
-		p1.style.left = '100%';
-
-		p2.style.transition = '.3s cubic-bezier(0.855, -0.030, 1.000, 0.290)';
-		p2.style.left = '0';
-		p2.style.display = 'block';
-		p2.style.transform = 'rotate(0)';
-
-		PAGENOW = PAGEPRO;
-		PAGEPRO = PAGEMAX == PAGENOW ? 1 : PAGENOW + 1;
-
-		_('page'+PAGENOW).style.zIndex = (PAGENOW == 1) ? "30": "0";
-		_('page'+PAGEPRO).style.zIndex = "40";
-	}	
-}
-
-
-function gotopage(p){
-
-	if("number" == typeof p && PAGENOW != p) PAGEPRO = p;
-	if(PAGENOW == p) return;
-
-	for(var i = 1; i <= PAGEMAX; i++){
-		if(i != PAGENOW) {
-			_('page'+i).style.left = '100%';
-			_('page'+i).style.display = 'none';
-			_('page'+i).style.transition = '0s';
-			_('page'+i).style.zIndex = '0';
-		}
+		_('navMenu').className = "";
 	}
+}
+
+function goFull(){
+
+    if(null == document.webkitCurrentFullScreenElement){
+            document.body.webkitRequestFullscreen()
+        } else {
+            document.webkitExitFullscreen()
+        }
+    togleMenu();
+}
+function goPage(p){
+	if("number" !== typeof p) p = 1;
+	if(p > MAX || p < 1) p = 1;
+
+	if(NOW == p) return;
 	
-	var p1 = _('page'+PAGENOW);
-	var p2 = _('page'+PAGEPRO);
-
-	p1.style.zIndex = "0";
-
-	p2.style.zIndex = "40";
-	p2.style.transition = 'all 4s';
-	p2.style.display = 'block';
-    p2.style.left = (screen.width - 10) + 'px';
-    p2.style.transform = 'rotate(-6deg)';
-
-	setTimeout(function (){
-		
-		var p1 = _('page'+PAGENOW);
-		var p2 = _('page'+PAGEPRO);
-
-		p1.style.transition = '4s';
-		p1.style.left = '100%';
-
-		p2.style.transition = '.3s cubic-bezier(0.855, -0.030, 1.000, 0.290)';
-		p2.style.left = '0';
-		p2.style.display = 'block';
-		p2.style.transform = 'rotate(0)';
-		p2.style.transition = 'all 0';
-
-		PAGENOW = PAGEPRO;
-		PAGEPRO = PAGEMAX == PAGENOW ? 1 : PAGENOW + 1;
-
-		_('page'+PAGENOW).style.zIndex = (PAGENOW == 1) ? "30": "0";
-		_('page'+PAGEPRO).style.zIndex = "40";
-
-		setTimeout(function(){p1.style.display = "none"}, 300);
-	}, 5);
-
+	resetPages(p);
+	_('page'+NOW).className = "page toPage";
+	NOW = p;	
+	calcBackNext();
+	toGo()
 }
 
 
-//Create a Topic
-function newtopic(){
-	var pgnew = PAGEMAX + 1;
+function chgtheme(){
+	togleMenu();
+}
+function save(){
+	togleMenu();
+}
+function load(){
+    $.post('upload.php',{action: 'load', script: false, name: '0980889'}).done(function(d){
+        var data = new DATA;
+        try {
+        data.error = JSON.parse(d).error;
+        } catch (e) {}
 
-	//Conteudo da nova página
-	var pghtml = '<div id="page'+pgnew+'" class="page">'
-    			+'<div class="content">'
-	    			+'<h1 class="pgtitulo" contenteditable="true" data-placeholder="Digite o Título aqui"></h1>'
-	    			+'<div class="pgtexto" contenteditable="true" data-placeholder="Digite seu conteúdo aqui"></div>'
-	    		+'</div></div>';
-	_('container').insertAdjacentHTML('beforeEnd',pghtml);
+        if(!data.error) {
+            data = JSON.parse(d);
+            var script = JSON.parse(data.script);
 
-	//conteúdo do botão de acesso a nova página
-	var tphtml = '<li id="tplink'+pgnew+'" onclick="gotopage('+pgnew+')">Digite o Título aqui</li>';
-	_('topicolink').insertAdjacentHTML('beforeEnd',tphtml);
+            if(confirm('Deseja realmente apagar os dados atuais e substituir pelo script:\n -- '+script.title.toUpperCase()+' -- ')){
+                
+                //Conteudo da nova página
+                var pghtml = '<div id="page1" class="page">'
+                                +'<div class="scrumb">Home ('+(script.topics.length -1)+' pages)</div>'
+                                +'<div class="content">'
+                                    +'<header>'
+                                        +'<h1 class="pgtitle" contenteditable="true" data-placeholder="Digite o Título aqui">'+script.title+'</h1>'
+                                    +'</header>'
+                                    +'<h2>Texto Bíblico</h2>'
+                                    +'<div class="txtbase" contenteditable="true" data-placeholder="Cole aqui o texto bíblico de base.">'+script.text+'</div>'
+                                    +'<h2>Prelúdio</h2>'
+                                    +'<p class="prelude" id="preludio" contenteditable="true" data-placeholder="Digite um texto para introdução aqui (opcional).">'+script.prelude+'</p>'
+                                    +'<h2>Tópicos</h2>'
+                                    +'<ul class="tpclink" id="tpclink"></ul>'
+                                    +'<button id="btNewTopic" placeholder="Adicionar novo tópico (página)">+</button>'
+                                    +'</div>'
+                                +'</div>'
+                            +'</div>';
+                                
+                _('container').innerHTML = pghtml;
+                
+                for(var i in script.topics){
+                    if(script.topics[i] !== null){
+                        var tphtml = '<li id="tplink'+i+'" onclick="goPage('+i+')">'+script.topics[i]+'</li>';
+                        _('tpclink').insertAdjacentHTML('beforeEnd',tphtml);
 
-	//ajustando o título no TOPICLINK
-	var page = _('page'+pgnew).getElementsByClassName('pgtitulo')[0];
-	_('tplink'+pgnew).innerHTML = ("" == page.innerHTML) ? page.getAttribute('data-placeholder') : page.innerHTML;
+                        //Conteudo da nova página
+                        var pghtml = '<div id="page'+i+'" class="page">'
+                                        +'<div class="scrumb">pag. <b>'+i+'</b> / '+(script.topics.length -1)+'</div>'
+                                        +'<div class="content">'
+                                            +'<header>'
+                                                +'<h1 class="pgtitle" contenteditable="true" onkeyup="edtitle(this,'+i+')" data-placeholder="Digite o Título aqui">'+script.pages[i].title+'</h1>'
+                                            +'</header>'
+                                            +'<section contenteditable="true" data-placeholder="Digite seu conteúdo aqui">'+script.pages[i].text+'</section>'
+                                        +'</div>'
+                                    +'</div>';
+                        _('container').insertAdjacentHTML('beforeEnd',pghtml);
+                    }
+                }
+                
+                //configuran as novas páginas
+                initPages();
+                //reiniciando o botão new topics
+                restNewTopicBtn();
+            } else {
+                alert('Ué?!\nDesistiu de carregar o Script?');
+            }
 
-	//Corrigindo o titulo no topiclink na EDIÇÃO
-	_('page'+pgnew).onkeyup = function(e){
-		var p = e.target.parentNode.parentNode.id.replace('page', '');
-		_('tplink'+p).innerHTML = e.target.innerHTML;
-	}
+        } else {
+            alert('Não consegui carregar essa p@rr@ :( ');
+        }
+        //fechando o menu
+        togleMenu();  
+    })
+}
 
-	PAGEMAX = pgnew;
-	
-	initPages();
-	gotopage(PAGEMAX);
+function list(){
+	togleMenu();
 }
 
 
-//Salvando a página
-function savepage(p){
-	pagenow = p || PAGENOW;
-
-	alert('salvadinho...');
-}
-
-//deletando a página
-function deletepage(p){
-	pagenow = p || PAGENOW;
-
-	_('page'+pagenow).remove();
-	_('tplink'+pagenow).remove();
-
-	PAGEMAX --;
-	initPages();
-	gotopage(1);
-
-}
-
-
+/* --- UTILS --- */
 function _(e){return document.getElementById(e) || false}
-function _c(e){return document.getElementsByClassName(e) || false}
+function _c(e){return document.getElementsByClassName(e)[0] || false}
+function _s(e){return document.querySelectorAll(e) || []}
+
+
+
+
