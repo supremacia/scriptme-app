@@ -5,7 +5,7 @@
 
 Adicionar áudio, vídeo e imagens (como um PowerPoint), além da possíbilidade de projetar em tempo real em telão (ou outra midia), é uma das features que o **Scriptme** terá em breve.
 
-**Para testar** acesse o site http://geracristo.tk com seu **smartphone**
+**Para testar** acesse o site http://scriptme.tk com seu **smartphone**
 
 Ou copie para seu computador local (com PHP instalado) e digite no terminal:
 
