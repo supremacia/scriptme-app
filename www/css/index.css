@@ -113,3 +113,13 @@ h1 {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
 }
+
+
+.teste {
+    width: 50%;
+    display: none;
+}
+
+.is-visible {
+    display: block;
+}
