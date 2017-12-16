@@ -48,6 +48,8 @@ var app = {
     }
 };
 
+// ---------------------------------------------------------------------------
+
 
 document.addEventListener("deviceready", onDeviceReady, false);
 function onDeviceReady(){  
@@ -101,6 +103,7 @@ function onDeviceReady(){
 
             fileWriter.onerror = function( e ){
                 console.log("Failed file write: " + e.toString());
+                alert("Failed file write: " + e.toString())
             };
 
             if( !dataObj )
@@ -163,7 +166,8 @@ function onDeviceReady(){
     }
 
     //mostra o preview
-    function displayImage( imgUri ) {        
+    function displayImage( imgUri ) {
+        alert( imgUri );        
         $('#js-previewFile').attr('src',imgUri).parent().addClass('is-visible'); 
     }
 
