@@ -2,6 +2,47 @@ composer.phar
 /vendor/
 sftp-config.json
 
-# Commit your application's lock file http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file
-# You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
-# composer.lock
+www/spec/lib/
+*/deps/
+*/node_modules/
+*/thirdparty/*
+*/third_party/*
+*/vendor/*
+*/*-min-*
+*/*-min.*
+*/*.min.*
+*/*jquery.?(ui|effects)-*.*.?(*).?(cs|j)s
+*/*jquery-*.*.?(*).?(cs|j)s
+*/prototype?(*).js
+*/*?(*).ts
+*/mootools*.*.*.js
+*/dojo.js
+*/MochiKit.js
+*/yahoo-*.js
+*/yui*.js
+*/ckeditor*.js
+*/tiny_mce*.js
+*/tiny_mce/?(langs|plugins|themes|utils)/*
+*/MathJax/*
+*/shBrush*.js
+*/shCore.js
+*/shLegacy.js
+*/modernizr.custom.?(*).js
+*/knockout-*.*.*.debug.js
+*/extjs/*.js
+*/extjs/*.xml
+*/extjs/*.txt
+*/extjs/*.html
+*/extjs/*.properties
+*/extjs/.sencha
+*/extjs/docs/*
+*/extjs/builds/*
+*/extjs/cmd/*
+*/extjs/examples/*
+*/extjs/locale/*
+*/extjs/packages/*
+*/extjs/plugins/*
+*/extjs/resources/*
+*/extjs/src/*
+*/extjs/welcome/*
+bower_components/*
