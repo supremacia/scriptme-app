@@ -2,10 +2,10 @@
 <widget id="scriptme.tk" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Scriptme</name>
     <description>
-        Hello World sample application that responds to the deviceready event.
+        Script para pregações ou discursos - mobile app
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        PhoneGap Team
+    <author email="prbr@ymail.com" href="http://scriptme.tk">
+        Bill Rocha
     </author>
     <content src="index.html" />
     <preference name="DisallowOverscroll" value="true" />
