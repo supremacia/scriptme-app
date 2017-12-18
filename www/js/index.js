@@ -139,7 +139,7 @@ function onDeviceReady(){
     //
     function uploadPhoto(){
 
-        var serviceURL = encodeURI('minhaurl/upload.php');        
+        var serviceURL = encodeURI('http://scriptme.tk/upload.php');        
         var fileURL = ofileEntry.nativeURL;
 
         var options = new FileUploadOptions();
